@@ -502,7 +502,7 @@ namespace WindowsFormsAppObservePLC
                     break;
 
             }
-            int i=client.DBWrite(NumDb,pos, BufferScrittura.Length, BufferScrittura);
+            int i=client.DBWrite(NumDb,0, BufferScrittura.Length, BufferScrittura);
             if(i==0)
             {
                 MessageBox.Show("Scrittura Effettuata!");
