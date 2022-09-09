@@ -71,6 +71,8 @@ namespace WindowsFormsAppObservePLC
             this.label7 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.comboBoxfuncSet = new System.Windows.Forms.ComboBox();
             this.ScriviButton = new RoundedButtonStyle.RoundedButton();
             this.textBox14 = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
@@ -597,6 +599,8 @@ namespace WindowsFormsAppObservePLC
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label20);
+            this.groupBox6.Controls.Add(this.comboBoxfuncSet);
             this.groupBox6.Controls.Add(this.ScriviButton);
             this.groupBox6.Controls.Add(this.textBox14);
             this.groupBox6.Controls.Add(this.label16);
@@ -617,6 +621,25 @@ namespace WindowsFormsAppObservePLC
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "ScritturaDB";
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(12, 39);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(65, 16);
+            this.label20.TabIndex = 18;
+            this.label20.Text = "funzione";
+            // 
+            // comboBoxfuncSet
+            // 
+            this.comboBoxfuncSet.FormattingEnabled = true;
+            this.comboBoxfuncSet.Location = new System.Drawing.Point(97, 34);
+            this.comboBoxfuncSet.Name = "comboBoxfuncSet";
+            this.comboBoxfuncSet.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxfuncSet.TabIndex = 17;
+            this.comboBoxfuncSet.SelectedIndexChanged += new System.EventHandler(this.comboBoxfuncSet_SelectedIndexChanged);
+            // 
             // ScriviButton
             // 
             this.ScriviButton.BorderColor = System.Drawing.Color.Silver;
@@ -628,13 +651,14 @@ namespace WindowsFormsAppObservePLC
             this.ScriviButton.Location = new System.Drawing.Point(480, 78);
             this.ScriviButton.Name = "ScriviButton";
             this.ScriviButton.OnHoverBorderColor = System.Drawing.Color.Gray;
-            this.ScriviButton.OnHoverButtonColor = System.Drawing.Color.Teal;
-            this.ScriviButton.OnHoverTextColor = System.Drawing.Color.Gray;
+            this.ScriviButton.OnHoverButtonColor = System.Drawing.Color.LawnGreen;
+            this.ScriviButton.OnHoverTextColor = System.Drawing.SystemColors.Window;
             this.ScriviButton.Size = new System.Drawing.Size(138, 33);
             this.ScriviButton.TabIndex = 8;
             this.ScriviButton.Text = "Scrivi";
             this.ScriviButton.TextColor = System.Drawing.Color.White;
             this.ScriviButton.UseVisualStyleBackColor = true;
+            this.ScriviButton.Click += new System.EventHandler(this.ScriviButton_Click);
             // 
             // textBox14
             // 
@@ -647,7 +671,7 @@ namespace WindowsFormsAppObservePLC
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(509, 40);
+            this.label16.Location = new System.Drawing.Point(519, 40);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(23, 15);
             this.label16.TabIndex = 14;
@@ -672,7 +696,7 @@ namespace WindowsFormsAppObservePLC
             // 
             // textBox12
             // 
-            this.textBox12.Location = new System.Drawing.Point(441, 34);
+            this.textBox12.Location = new System.Drawing.Point(450, 34);
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(53, 26);
             this.textBox12.TabIndex = 11;
@@ -681,7 +705,7 @@ namespace WindowsFormsAppObservePLC
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(401, 40);
+            this.label14.Location = new System.Drawing.Point(412, 40);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(31, 15);
             this.label14.TabIndex = 10;
@@ -689,7 +713,7 @@ namespace WindowsFormsAppObservePLC
             // 
             // textBox11
             // 
-            this.textBox11.Location = new System.Drawing.Point(289, 34);
+            this.textBox11.Location = new System.Drawing.Point(306, 34);
             this.textBox11.Name = "textBox11";
             this.textBox11.Size = new System.Drawing.Size(100, 26);
             this.textBox11.TabIndex = 9;
@@ -706,7 +730,7 @@ namespace WindowsFormsAppObservePLC
             // 
             // textBox10
             // 
-            this.textBox10.Location = new System.Drawing.Point(116, 34);
+            this.textBox10.Location = new System.Drawing.Point(306, 78);
             this.textBox10.Name = "textBox10";
             this.textBox10.Size = new System.Drawing.Size(100, 26);
             this.textBox10.TabIndex = 7;
@@ -715,7 +739,7 @@ namespace WindowsFormsAppObservePLC
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(6, 40);
+            this.label12.Location = new System.Drawing.Point(227, 84);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(73, 15);
             this.label12.TabIndex = 6;
@@ -821,6 +845,8 @@ namespace WindowsFormsAppObservePLC
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.ComboBox comboBoxfuncSet;
     }
 }
 

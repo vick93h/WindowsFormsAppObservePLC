@@ -14,9 +14,12 @@ namespace WindowsFormsAppObservePLC
 {
     public partial class Form1 : Form
     {
+        
         List<string> functionLettura = new List<string>();
+        List<string> functionScrittura = new List<string>();
         private S7Client client;
         private byte[] BufferLettura;
+        private byte[] BufferScrittura;
         //sposta la form
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -72,6 +75,30 @@ namespace WindowsFormsAppObservePLC
             functionLettura.Add("GetDTLAt");
             functionLettura.Add("GetStringAt");
             functionLettura.Add("GetCharsAt");
+            //
+            functionScrittura.Add("SetBitAt");
+            functionScrittura.Add("SetSIntAt");
+            functionScrittura.Add("SetIntAt");
+            functionScrittura.Add("SetDIntAt");
+            functionScrittura.Add("SetLIntAt");
+            functionScrittura.Add("SetUSIntAt");
+            functionScrittura.Add("SetUIntAt");
+            functionScrittura.Add("SetUDIntAt");
+            functionScrittura.Add("SetULIntAt");
+            functionScrittura.Add("SetByteAt");
+            functionScrittura.Add("SetWordAt");
+            functionScrittura.Add("SetDWordAt");
+            functionScrittura.Add("SetLWordAt");
+            functionScrittura.Add("SetRealAt");
+            functionScrittura.Add("SetLRealAt");
+            functionScrittura.Add("SetDateTimeAt");
+            functionScrittura.Add("SetDateAt");
+            functionScrittura.Add("SetTODAt");
+            functionScrittura.Add("SetLTODAt");
+            functionScrittura.Add("SetLDTAt");
+            functionScrittura.Add("SetDTLAt");
+            functionScrittura.Add("SetStringAt");
+            functionScrittura.Add("SetCharsAt");
         }
 
    
@@ -164,14 +191,16 @@ namespace WindowsFormsAppObservePLC
         {
             int NumDb = ConverterInteger(textBoxNDB.Text.ToString());
             int dim = ConverterInteger(textBoxSizeBuffer.Text.ToString());
+            int start = ConverterInteger(textBox5.Text.ToString());
             BufferLettura = new byte[dim];
             try
             {
-                int i = client.DBRead(NumDb, 0, BufferLettura.Length, BufferLettura);
+                int i = client.DBRead(NumDb,start, BufferLettura.Length, BufferLettura);
                 if (i == 0)
                 {
                     MessageBox.Show("Sono entrato nella DB!");
                     comboBoxFunGet.DataSource = functionLettura;
+                    comboBoxfuncSet.DataSource = functionScrittura;
                     getButton.Enabled = true;
                     ScriviButton.Enabled = true;
                 }
@@ -191,8 +220,10 @@ namespace WindowsFormsAppObservePLC
         [Obsolete]
         private void getButton_Click(object sender, EventArgs e)
          {
+            int NumDb = ConverterInteger(textBoxNDB.Text.ToString());
             int size = 0;
             int  bit=0;
+            int start = ConverterInteger(textBox5.Text.ToString());
             string func = comboBoxFunGet.SelectedItem.ToString();
             if (func == "GetBitAt") {
                 bit = ConverterInteger(textBox8.Text.ToString());
@@ -202,7 +233,8 @@ namespace WindowsFormsAppObservePLC
                size = ConverterInteger(textBox1.Text.ToString());
             }
             int pos = ConverterInteger(textBox7.Text.ToString());
-            switch(func)
+            int j = client.DBRead(NumDb, start, BufferLettura.Length, BufferLettura);
+            switch (func)
             {
                 case "GetBitAt":    
                     bool r = S7.GetBitAt(BufferLettura, pos, bit);
@@ -298,6 +330,7 @@ namespace WindowsFormsAppObservePLC
                     textBoxVisualizza.Text = r22;
                     break;
             }
+            int i= client.DBRead(NumDb, start, BufferLettura.Length, BufferLettura);
         }
 
         private void comboBoxFunGet_SelectedIndexChanged(object sender, EventArgs e)
@@ -322,31 +355,209 @@ namespace WindowsFormsAppObservePLC
             }
         }
 
-    
+        private void ScriviButton_Click(object sender, EventArgs e)
+        {
+            int NumDb = ConverterInteger(textBoxNDB.Text.ToString());
+            string sizeBuffer = textBox10.Text.ToString();
+            int dim = ConverterInteger(sizeBuffer);
+            BufferScrittura = new byte[dim];
+            int pos = ConverterInteger(textBox12.Text.ToString());
+            int bit = 0;
+            int max_lenght = 0;
+            string func = comboBoxfuncSet.SelectedItem.ToString();
+            if (func == "SetBitAt")
+            {
+                bit = ConverterInteger(textBox14.Text.ToString());
+               
+            }
+            if (func == "SetStringAt")
+            {
+                max_lenght = ConverterInteger(textBox13.Text.ToString());
+            }
+            switch (func)
+            {
+                case "SetBitAt":
+                    string valore = textBox11.Text.ToString();
+                    if (valore != "true" && valore != "false")
+                    {
+                        MessageBox.Show("valori ammessi:true o false!");
+                        return;
+                    }
+                    else
+                    {
+
+                        bool value = bool.Parse(valore);
+                        S7.SetBitAt(BufferScrittura, pos, bit, value);
+                    }
+                    break;
+
+                case "SetSIntAt":
+                    string valore1 = textBox11.Text.ToString();
+                    int value1 = ConverterInteger(valore1);
+                    S7.SetSIntAt(BufferScrittura, pos, value1);
+                    break;
+                case "SetIntAt":
+                    string valore2 = textBox11.Text.ToString();
+                    Int16 value2 = Int16.Parse(valore2);
+                    S7.SetIntAt(BufferScrittura, pos, value2);
+                    break;
+                case "SetDIntAt":
+                    string valore3 = textBox11.Text.ToString();
+                    int value3 = ConverterInteger(valore3);
+                    S7.SetDIntAt(BufferScrittura, pos, value3);
+                    break;
+                case "SetLIntAt":
+                    string valore4 = textBox11.Text.ToString();
+                    Int64 value4 = Int64.Parse(valore4);
+                    S7.SetLIntAt(BufferScrittura, pos, value4);
+                    break;
+                case "SetUSIntAt":
+                    string valore5 = textBox11.Text.ToString();
+                    byte value5 = byte.Parse(valore5);
+                    S7.SetUSIntAt(BufferScrittura, pos, value5);
+                    break;
+                case "SetUIntAt":
+                    string valore6 = textBox11.Text.ToString();
+                    UInt16 value6 = UInt16.Parse(valore6);
+                    S7.SetUIntAt(BufferScrittura, pos, value6);
+                    break;
+                case "SetUDIntAt":
+                    string valore7 = textBox11.Text.ToString();
+                    UInt32 value7 = UInt32.Parse(valore7);
+                    S7.SetUDIntAt(BufferScrittura, pos, value7);
+                    break;
+                case "SetULintAt":
+                    string valore8 = textBox11.Text.ToString();
+                    UInt64 value8 = UInt64.Parse(valore8);
+                    S7.SetULintAt(BufferScrittura, pos, value8);
+                    break;
+                case "SetByteAt":
+                    string valore9 = textBox11.Text.ToString();
+                    byte value9 = byte.Parse(valore9);
+                    S7.SetByteAt(BufferScrittura, pos, value9);
+                    break;
+                case "SetWordAt":
+                    string valore10 = textBox11.Text.ToString();
+                    UInt16 value10 = UInt16.Parse(valore10);
+                    S7.SetWordAt(BufferScrittura, pos, value10);
+                    break;
+                case "SetDWordAt":
+                    string valore11 = textBox11.Text.ToString();
+                    UInt32 value11 = UInt32.Parse(valore11);
+                    S7.SetDWordAt(BufferScrittura, pos, value11);
+                    break;
+                case "SetLWordAt":
+                    string valore12 = textBox11.Text.ToString();
+                    UInt64 value12 = UInt64.Parse(valore12);
+                    S7.SetLWordAt(BufferScrittura, pos, value12);
+                    break;
+                case "SetRealAt":
+                    string valore13 = textBox11.Text.ToString();
+                    Single value13 = Single.Parse(valore13);
+                    S7.SetRealAt(BufferScrittura, pos, value13);
+                    break;
+                case "SetLRealAt":
+                    string valore14 = textBox11.Text.ToString();
+                    Double value14 = Double.Parse(valore14);
+                    S7.SetLRealAt(BufferScrittura, pos, value14);
+                    break;
+                case "SetDateTimeAt":
+                    string valore15 = textBox11.Text.ToString();
+                    DateTime value15 = DateTime.Parse(valore15);
+                    S7.SetDateTimeAt(BufferScrittura, pos, value15);
+                    break;
+                case "SetDateAt":
+                    string valore16 = textBox11.Text.ToString();
+                    DateTime value16 = DateTime.Parse(valore16);
+                    S7.SetDateAt(BufferScrittura, pos, value16);
+                    break;
+                case "SetTODAt":
+                    string valore17 = textBox11.Text.ToString();
+                    DateTime value17 = DateTime.Parse(valore17);
+                    S7.SetTODAt(BufferScrittura, pos, value17);
+                    break;
+                case "SetLTODAt":
+                    string valore18 = textBox11.Text.ToString();
+                    DateTime value18 = DateTime.Parse(valore18);
+                    S7.SetLTODAt(BufferScrittura, pos, value18);
+                    break;
+                case "SetLDTAt":
+                    string valore19 = textBox11.Text.ToString();
+                    DateTime value19 = DateTime.Parse(valore19);
+                    S7.SetLDTAt(BufferScrittura, pos, value19);
+                    break;
+                case "SetDTLAt":
+                    string valore20 = textBox11.Text.ToString();
+                    DateTime value20 = DateTime.Parse(valore20);
+                    S7.SetDTLAt(BufferScrittura, pos, value20);
+                    break;
+                case "SetStringAt":
+
+                    string valore21 = textBox11.Text.ToString();
+                    S7.SetStringAt(BufferScrittura, pos, max_lenght, valore21);
+                    break;
+                case "SetCharsAt":
+                    string valore22 = textBox11.Text.ToString();
+                    S7.SetCharsAt(BufferScrittura, pos, valore22);
+                    break;
+
+            }
+            int i=client.DBWrite(NumDb,pos, BufferScrittura.Length, BufferScrittura);
+            if(i==0)
+            {
+                MessageBox.Show("Scrittura Effettuata!");
+            }
+            else
+            {
+                MessageBox.Show("Scrittura non Effettuata!");
+            }
+        }
+
+  
+
+        private void comboBoxfuncSet_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string func = comboBoxfuncSet.SelectedItem.ToString();
+            if (func == "SetBitAt")
+            {
+                textBox14.Enabled = true;
+            }
+            else
+            {
+                textBox14.Enabled = false;
+            }
+            if (func == "SetStringAt")
+            {
+                textBox13.Enabled = true;
+            }
+            else
+            {
+                textBox13.Enabled = false;
+
+            }
+        }
     }
 }
-/*functionLettura.Add("GetBitAt");
-functionLettura.Add("GetSIntAt");
-functionLettura.Add("GetIntAt");
-functionLettura.Add("GetSIntAt");
-functionLettura.Add("GetDIntAt");
-functionLettura.Add("GetLIntAt");
-functionLettura.Add("GetUSIntAt");
-functionLettura.Add("GetUDIntAt");
-functionLettura.Add("GetULIntAt");
-functionLettura.Add("GetByteAt");
-functionLettura.Add("GetWordAt");
-functionLettura.Add("GetDWordAt");
-functionLettura.Add("GetLWordAt");
-functionLettura.Add("GetRealAt");
-functionLettura.Add("GetLRealAt");
-functionLettura.Add("GetDateTimeAt");
-functionLettura.Add("GetTODAt");
-functionLettura.Add("GetLTODAt");
-functionLettura.Add("GetLDTAt");
-functionLettura.Add("GetDTLAt");
-functionLettura.Add("GetStringAt");
-functionLettura.Add("GetCharsAt");
-functionLettura.Add("GetCounter");
-functionLettura.Add("GetCounterAt");
-functionLettura.Add("ToCounter");*/
+/*          functionScrittura.Add("SetBitAt");
+            functionScrittura.Add("SetSIntAt");
+            functionScrittura.Add("SetIntAt");
+            functionScrittura.Add("SetDIntAt");
+            functionScrittura.Add("SetLIntAt");
+            functionScrittura.Add("SetUSIntAt");
+            functionScrittura.Add("SetUIntAt");
+            functionScrittura.Add("SetUDIntAt");
+            functionScrittura.Add("SetULIntAt");
+            functionScrittura.Add("SetByteAt");
+            functionScrittura.Add("SetWordAt");
+            functionScrittura.Add("SetDWordAt");
+            functionScrittura.Add("SetLWordAt");
+            functionScrittura.Add("SetRealAt");
+            functionScrittura.Add("SetLRealAt");
+            functionScrittura.Add("SetDateTimeAt");
+            functionScrittura.Add("SetDateAt");
+            functionScrittura.Add("SetTODAt");
+            functionScrittura.Add("SetLTODAt");
+            functionScrittura.Add("SetLDTAt");
+            functionScrittura.Add("SetDTLAt");
+            functionScrittura.Add("SetStringAt");
+            functionScrittura.Add("SetCharsAt");*/
