@@ -45,11 +45,22 @@ namespace WindowsFormsAppObservePLC
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            DisconnectButton.Enabled = false;
             pictureBoxOn.Image = WindowsFormsAppObservePLC.Properties.Resources.buttons_on;
             pictureBoxOff.Image = WindowsFormsAppObservePLC.Properties.Resources.buttons_off;
             CheckLettura.Enabled = false;
             getButton.Enabled = false;
             ScriviButton.Enabled = false;
+            textBox11.Enabled = false;
+            textBox10.Enabled = false;
+            textBox12.Enabled = false;
+            textBox14.Enabled = false;
+            textBox13.Enabled = false;
+            ScriviButton.Enabled = false;
+            textBox7.Enabled = false;
+            textBox8.Enabled = false;
+            textBox1.Enabled = false;
+            getButton.Enabled = false;
             label4.Text = "Non Connesso";
             //creo lista funzioni da scegliere
             functionLettura.Add("GetBitAt");
@@ -153,10 +164,14 @@ namespace WindowsFormsAppObservePLC
                     pictureBoxOff.Image = WindowsFormsAppObservePLC.Properties.Resources.buttons_off;
                     CheckLettura.Enabled = true;
                     label4.Text = "Connesso";
+                    DisconnectButton.Enabled = true;
+                    Connetti.Enabled = false;
 
                 }
                 else
                 {
+                    DisconnectButton.Enabled =false;
+                    Connetti.Enabled = true;
                     CheckLettura.Enabled = false;
                     label4.Text = "Non Connesso";
                     pictureBoxOn.Image = WindowsFormsAppObservePLC.Properties.Resources.buttons_on;
@@ -220,6 +235,7 @@ namespace WindowsFormsAppObservePLC
         [Obsolete]
         private void getButton_Click(object sender, EventArgs e)
          {
+            
             int NumDb = ConverterInteger(textBoxNDB.Text.ToString());
             int size = 0;
             int  bit=0;
@@ -332,26 +348,112 @@ namespace WindowsFormsAppObservePLC
             }
             int i= client.DBRead(NumDb, start, BufferLettura.Length, BufferLettura);
         }
-
+        
         private void comboBoxFunGet_SelectedIndexChanged(object sender, EventArgs e)
         {
+           
             string func = comboBoxFunGet.SelectedItem.ToString();
-            if (func == "GetBitAt")
-            {
-                textBox8.Enabled = true;
-            }
-            else
-            {
-                textBox8.Enabled = false;
-            }
-            if(func== "GetCharsAt")
-            {
-                textBox1.Enabled = true;
-            }
-            else
-            {
-                textBox1.Enabled =false;
 
+            textBox8.Enabled = false;
+            textBox1.Enabled = false;
+            textBox7.Enabled = false;
+            switch (func)
+            {
+                case "GetBitAt":
+                    textBox8.Enabled = true;
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+
+                case "GetSIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetDIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetLIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetUSIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetUIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetUDIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetULIntAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetByteAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetWordAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetDWordAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetLWordAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetRealAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetLRealAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetDateTimeAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetDateAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetTODAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetLTODAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetLDTAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetDTLAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetStringAt":
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
+                case "GetCharsAt":
+                    textBox1.Enabled = true;
+                    textBox7.Enabled = true;
+                    getButton.Enabled = true;
+                    break;
             }
         }
 
@@ -517,47 +619,190 @@ namespace WindowsFormsAppObservePLC
 
         private void comboBoxfuncSet_SelectedIndexChanged(object sender, EventArgs e)
         {
+            textBox10.Enabled = true;
             string func = comboBoxfuncSet.SelectedItem.ToString();
-            if (func == "SetBitAt")
+      
+            switch (func)
             {
-                textBox14.Enabled = true;
-            }
-            else
-            {
-                textBox14.Enabled = false;
-            }
-            if (func == "SetStringAt")
-            {
-                textBox13.Enabled = true;
-            }
-            else
-            {
-                textBox13.Enabled = false;
+                case "SetBitAt": 
+                    textBox14.Enabled = true;
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+
+                case "SetSIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetDIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetLIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetUSIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetUIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetUDIntAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetULintAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetByteAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetWordAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetDWordAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetLWordAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetRealAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetLRealAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetDateTimeAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetDateAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetTODAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetLTODAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetLDTAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetDTLAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetStringAt":
+                    textBox13.Enabled = false;
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = true;
+                    ScriviButton.Enabled = true;
+                    break;
+                case "SetCharsAt":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    ScriviButton.Enabled = true;
+                    break;
 
             }
         }
+
+        private void panelTop_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void DisconnectButton_Click(object sender, EventArgs e)
+        {
+            client.Disconnect();
+            CheckLettura.Enabled = false;
+            Connetti.Enabled = true;
+            label4.Text = "Non Connesso";
+            pictureBoxOn.Image = WindowsFormsAppObservePLC.Properties.Resources.buttons_on;
+            pictureBoxOff.Image = WindowsFormsAppObservePLC.Properties.Resources.off_unscreen;
+        }
     }
 }
-/*          functionScrittura.Add("SetBitAt");
-            functionScrittura.Add("SetSIntAt");
-            functionScrittura.Add("SetIntAt");
-            functionScrittura.Add("SetDIntAt");
-            functionScrittura.Add("SetLIntAt");
-            functionScrittura.Add("SetUSIntAt");
-            functionScrittura.Add("SetUIntAt");
-            functionScrittura.Add("SetUDIntAt");
-            functionScrittura.Add("SetULIntAt");
-            functionScrittura.Add("SetByteAt");
-            functionScrittura.Add("SetWordAt");
-            functionScrittura.Add("SetDWordAt");
-            functionScrittura.Add("SetLWordAt");
-            functionScrittura.Add("SetRealAt");
-            functionScrittura.Add("SetLRealAt");
-            functionScrittura.Add("SetDateTimeAt");
-            functionScrittura.Add("SetDateAt");
-            functionScrittura.Add("SetTODAt");
-            functionScrittura.Add("SetLTODAt");
-            functionScrittura.Add("SetLDTAt");
-            functionScrittura.Add("SetDTLAt");
-            functionScrittura.Add("SetStringAt");
-            functionScrittura.Add("SetCharsAt");*/

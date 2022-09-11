@@ -95,6 +95,7 @@
     <Content Include="image\buttons_on.png" />
     <Content Include="image\close button.png" />
     <Content Include="image\close_red.png" />
+    <Content Include="image\Imsharp7.png" />
     <Content Include="image\minimize button.png" />
     <Content Include="image\minimize_blue.png" />
     <Content Include="image\off-unscreen.gif" />
