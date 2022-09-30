@@ -110,6 +110,7 @@ namespace WindowsFormsAppObservePLC
             functionScrittura.Add("SetDTLAt");
             functionScrittura.Add("SetStringAt");
             functionScrittura.Add("SetCharsAt");
+            functionScrittura.Add("Scrivi_Stringa");
         }
 
    
@@ -135,7 +136,7 @@ namespace WindowsFormsAppObservePLC
 
         private void buttonMinimize_MouseLeave(object sender, EventArgs e)
         {
-            buttonMinimize.BackgroundImage = WindowsFormsAppObservePLC.Properties.Resources.minimize_button;
+            buttonMinimize.BackgroundImage = WindowsFormsAppObservePLC.Properties.Resources.minimize_icon;
         }
 
         private void buttonMinimize_Click(object sender, EventArgs e)
@@ -347,6 +348,15 @@ namespace WindowsFormsAppObservePLC
                     break;
             }
             int i= client.DBRead(NumDb, start, BufferLettura.Length, BufferLettura);
+            if(i==0)
+            {
+                MessageBox.Show("Lettura Completata con Successo!");
+
+            }
+            else
+            {
+                MessageBox.Show("Non Riesco a Fare la Lettura");
+            }
         }
         
         private void comboBoxFunGet_SelectedIndexChanged(object sender, EventArgs e)
@@ -602,16 +612,35 @@ namespace WindowsFormsAppObservePLC
                     string valore22 = textBox11.Text.ToString();
                     S7.SetCharsAt(BufferScrittura, pos, valore22);
                     break;
+                case "Scrivi_Stringa":
+                    string valore23 = textBox11.Text.ToString();
+                    int result=Scrivi_Stringa(NumDb, pos, valore23);
+                    if (result == 0)
+                    {
+                        MessageBox.Show("Scrittura Effettuata!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Scrittura non Effettuata!");
+                    }
+                    break;
 
             }
-            int i=client.DBWrite(NumDb,0, BufferScrittura.Length, BufferScrittura);
-            if(i==0)
+            if (func != "Scrivi_Stringa")
             {
-                MessageBox.Show("Scrittura Effettuata!");
+                int i = client.DBWrite(NumDb, 0, BufferScrittura.Length, BufferScrittura);
+                if (i == 0)
+                {
+                    MessageBox.Show("Scrittura Effettuata!");
+                }
+                else
+                {
+                    MessageBox.Show("Scrittura non Effettuata!");
+                }
             }
             else
             {
-                MessageBox.Show("Scrittura non Effettuata!");
+                return;
             }
         }
 
@@ -773,11 +802,19 @@ namespace WindowsFormsAppObservePLC
                     ScriviButton.Enabled = true;
                     break;
                 case "SetStringAt":
-                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
                     textBox11.Enabled = true;
                     textBox12.Enabled = true;
                     textBox13.Enabled = true;
                     ScriviButton.Enabled = true;
+                    break;
+                case"Scrivi_Stringa":
+                    textBox11.Enabled = true;
+                    textBox12.Enabled = true;
+                    ScriviButton.Enabled = true;
+                    textBox13.Enabled = false;
+                    textBox14.Enabled = false;
+                    textBox10.Enabled = false;
                     break;
                 case "SetCharsAt":
                     textBox11.Enabled = true;
@@ -803,6 +840,26 @@ namespace WindowsFormsAppObservePLC
             label4.Text = "Non Connesso";
             pictureBoxOn.Image = WindowsFormsAppObservePLC.Properties.Resources.buttons_on;
             pictureBoxOff.Image = WindowsFormsAppObservePLC.Properties.Resources.off_unscreen;
+        }
+        private int Scrivi_Stringa(int db_number,int start_address,string value)
+        {
+            try
+            {
+                byte[] dataBytes = Encoding.ASCII.GetBytes(value);
+                List<byte> values = new List<byte>();
+                byte maxLength = (byte)value.Length;
+                byte actualLength = (byte)value.Length;
+                values.Add(maxLength);
+                values.Add(actualLength);
+                values.AddRange(dataBytes);
+                return client.DBWrite(db_number, start_address, values.Count, values.ToArray());
+            }
+            catch (Exception ex)
+            {
+               
+                MessageBox.Show(this, ex.Message, "Informazione", MessageBoxButtons.OK, MessageBoxIcon.Information); 
+                return 0;
+            }
         }
     }
 }

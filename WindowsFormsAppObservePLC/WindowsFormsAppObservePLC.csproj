@@ -97,6 +97,7 @@
     <Content Include="image\close_red.png" />
     <Content Include="image\Imsharp7.png" />
     <Content Include="image\minimize button.png" />
+    <Content Include="image\minimize-icon.png" />
     <Content Include="image\minimize_blue.png" />
     <Content Include="image\off-unscreen.gif" />
     <Content Include="image\on-unscreen.gif" />
